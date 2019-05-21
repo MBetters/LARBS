@@ -6,10 +6,11 @@
 ### OPTIONS AND VARIABLES ###
 
 while getopts ":a:r:p:h" o; do case "${o}" in
-	h) printf "Optional arguments for custom use:\\n  -r: Dotfiles repository (local file or url)\\n  -p: Dependencies and programs csv (local file or url)\\n  -a: AUR helper (must have pacman-like syntax)\\n  -h: Show this message\\n" && exit ;;
+	h) printf "Optional arguments for custom use:\\n  -r: Dotfiles repository (local file or url)\\n  -p: Dependencies and programs csv (local file or url)\\n  -a: AUR helper (must have pacman-like syntax)\\n  -l: logfile (defaults to /dev/null)\\n  -h: Show this message\\n" && exit ;;
 	r) dotfilesrepo=${OPTARG} && git ls-remote "$dotfilesrepo" || exit ;;
 	p) progsfile=${OPTARG} ;;
 	a) aurhelper=${OPTARG} ;;
+	l) logfile=${OPTARG} ;;
 	*) printf "Invalid option: -%s\\n" "$OPTARG" && exit ;;
 esac done
 
@@ -17,6 +18,7 @@ esac done
 [ -z "$dotfilesrepo" ] && dotfilesrepo="https://github.com/lukesmithxyz/voidrice.git"
 [ -z "$progsfile" ] && progsfile="https://raw.githubusercontent.com/LukeSmithxyz/LARBS/master/progs.csv"
 [ -z "$aurhelper" ] && aurhelper="yay"
+[ -z "$logfile" ] && logfile="/dev/null"
 
 ### FUNCTIONS ###
 
